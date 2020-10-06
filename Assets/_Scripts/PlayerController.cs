@@ -67,15 +67,19 @@ public class PlayerController : MonoBehaviour
             direction = -1.0f;
         }
 
-        var newVelocity = m_rigidBody.velocity + new Vector2(direction * horizontalSpeed, 0.0f);
-
-        m_rigidBody.velocity =  Vector2.ClampMagnitude(newVelocity, maxSpeed);
-        m_rigidBody.velocity *= 0.99f;//to prevent it from moving forever
+        
 
         if (endTouch.x != 0.0f)
         {
             Debug.Log("lerping");
-            transform.position = new Vector2( Mathf.Lerp(transform.position.x, endTouch.x, 0.01f), transform.position.y);
+            transform.position = new Vector2( Mathf.Lerp(transform.position.x, endTouch.x, 0.1), transform.position.y);
+        }
+        else
+        {
+            var newVelocity = m_rigidBody.velocity + new Vector2(direction * horizontalSpeed, 0.0f);
+
+            m_rigidBody.velocity = Vector2.ClampMagnitude(newVelocity, maxSpeed);
+            m_rigidBody.velocity *= 0.99f;//to prevent it from moving forever
         }
 
     }
