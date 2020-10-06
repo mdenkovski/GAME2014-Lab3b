@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class PlayerController : MonoBehaviour
 {
+    public BulletManager bulletManager;
+
     public float horizontalBoundary;
     public float horizontalSpeed;
     public float maxSpeed;
+    public float horizontalTvalue;
+    public float framesPerShot;
 
     private Vector3 endTouch;
     private Rigidbody2D m_rigidBody;
@@ -24,6 +30,15 @@ public class PlayerController : MonoBehaviour
     {
         _Move();
         _CheckBounds();
+        _FireBullet();
+    }
+
+    private void _FireBullet()
+    {
+        if (Time.frameCount % framesPerShot == 0)
+        {
+            bulletManager.GetBullet(transform.position);
+        }
     }
 
     private void _Move()
@@ -72,7 +87,7 @@ public class PlayerController : MonoBehaviour
         if (endTouch.x != 0.0f)
         {
             Debug.Log("lerping");
-            transform.position = new Vector2( Mathf.Lerp(transform.position.x, endTouch.x, 0.1), transform.position.y);
+            transform.position = new Vector2( Mathf.Lerp(transform.position.x, endTouch.x, horizontalTvalue), transform.position.y);
         }
         else
         {
